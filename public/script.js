@@ -65,7 +65,7 @@ function parseSrtChunk(chunk) {
 // ===========================
 // File Selection
 // ===========================
-dropZone.addEventListener('click', () => fileInput.click());
+// Removed redundant click listener for dropZone since it is a label
 
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(ev => {
     dropZone.addEventListener(ev, (e) => e.preventDefault());
@@ -222,7 +222,10 @@ startBtn.addEventListener('click', async () => {
             body: formData,
         });
 
-        if (!response.ok) throw new Error("Sunucu hatası.");
+        if (!response.ok) {
+            const errJson = await response.json().catch(() => ({}));
+            throw new Error(errJson.error || "Sunucu bağlantı hatası.");
+        }
 
         // Switch screens instantly when stream begins
         uploadScreen.classList.add('hidden');
@@ -248,6 +251,10 @@ startBtn.addEventListener('click', async () => {
                         try {
                             const data = JSON.parse(dataStr);
 
+                            if (data.error) {
+                                throw new Error(data.error);
+                            }
+
                             if (data.language) {
                                 inspectorLanguage.textContent = data.language.toUpperCase();
                                 if (data.duration) {
@@ -269,7 +276,7 @@ startBtn.addEventListener('click', async () => {
                                 showToast("Timeline Analizi Tamamlandı!");
                             }
                         } catch (e) {
-                            // ignore json err
+                            if (e.message) throw e; // bubble up data.error
                         }
                     }
                 }
@@ -277,8 +284,14 @@ startBtn.addEventListener('click', async () => {
         }
     } catch (e) {
         showToast("Hata: " + e.message);
+        // Reset UI
         startBtn.classList.remove('hidden');
         progressDiv.classList.add('hidden');
+        mainEditor.classList.add('hidden');
+        uploadScreen.classList.remove('hidden');
+    } finally {
+        // Safe reset
+        startBtn.disabled = false;
     }
 });
 
