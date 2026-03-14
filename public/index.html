@@ -65,8 +65,8 @@
 
             <div class="modal-body">
               <label id="drop-zone" class="drop-zone" for="file-input">
-                <input type="file" id="file-input" accept="audio/*" hidden>
-                <div class="upload-box-icon">
+                <input type="file" id="file-input" accept="audio/*,video/*" hidden>
+                <div class="upload-box-icon" id="drop-icon-container">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                     <polyline points="17 8 12 3 7 8" />
@@ -74,38 +74,31 @@
                   </svg>
                 </div>
                 <div class="drop-zone-text">
-                  <h3>Click or drag files here to upload</h3>
+                  <h3 id="drop-zone-title">Click or drag files here to upload</h3>
                   <p id="drop-zone-sub">Audio & video files, up to 1000MB</p>
                 </div>
               </label>
 
               <div class="setting-row">
                 <span class="setting-label">Primary language</span>
-                <div class="custom-select">
-                  <span>Detect</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </div>
+                <select id="language-select" class="custom-select"
+                  style="background: var(--bg-surface); color: var(--text-base); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; outline: none; appearance: none; cursor: pointer;">
+                  <option value="detect">Otomatik Algıla (Auto)</option>
+                  <option value="tr" selected>Türkçe (Turkish)</option>
+                  <option value="en">İngilizce (English)</option>
+                  <option value="de">Almanca (German)</option>
+                </select>
               </div>
 
               <div class="setting-row">
-                <span class="setting-label">Tag audio events</span>
+                <span class="setting-label">Kelime Bazlı Altyazı (Premiere Pro)</span>
                 <label class="toggle-switch">
                   <input type="checkbox" id="mode-toggle" checked>
                   <span class="switch-slider"></span>
                 </label>
               </div>
 
-              <div class="setting-row">
-                <span class="setting-label">Include subtitles</span>
-                <label class="toggle-switch">
-                  <input type="checkbox" disabled>
-                  <span class="switch-slider"></span>
-                </label>
-              </div>
-
-              <div class="setting-group">
+              <div class="setting-group" style="display: none;">
                 <span class="setting-label">Keyterms</span>
                 <div class="custom-input-wrap">
                   <input type="text" class="custom-input" placeholder="Add keyterms...">

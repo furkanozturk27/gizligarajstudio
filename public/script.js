@@ -80,21 +80,16 @@ fileInput.addEventListener('change', (e) => {
 });
 
 function handleFile(file) {
-    if (!file.type.startsWith('audio/') && !file.name.match(/\.(mp3|wav|m4a)$/i)) {
+    if (!file.type.startsWith('audio/') && !file.type.startsWith('video/') && !file.name.match(/\.(mp3|wav|m4a|mp4|mov)$/i)) {
         return showToast("Lütfen geçerli bir ses dosyası seçin.");
     }
     selectedFile = file;
-    dropZone.innerHTML = `
-        <div class="upload-box-icon" style="color:#007acc; border-color:#007acc;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
-            </svg>
-        </div>
-        <div class="drop-zone-text">
-            <h3>${file.name}</h3>
-            <p id="drop-zone-sub">${(file.size / 1024 / 1024).toFixed(1)} MB</p>
-        </div>
-    `;
+
+    document.getElementById('drop-icon-container').style.color = '#FFD700'; // Gizli garaj yellow
+    document.getElementById('drop-icon-container').style.borderColor = '#FFD700';
+    document.getElementById('drop-zone-title').textContent = file.name;
+    document.getElementById('drop-zone-sub').textContent = (file.size / 1024 / 1024).toFixed(1) + " MB";
+
     startBtn.disabled = false;
     inspectorFilename.textContent = file.name;
 
@@ -212,6 +207,11 @@ startBtn.addEventListener('click', async () => {
     const modeToggle = document.getElementById('mode-toggle');
     const mode = modeToggle && modeToggle.checked ? 'word' : 'standard';
     formData.append('mode', mode);
+
+    const langSelect = document.getElementById('language-select');
+    if (langSelect && langSelect.value !== 'detect') {
+        formData.append('language', langSelect.value);
+    }
 
     try {
         statusText.textContent = "Bağlanıyor...";

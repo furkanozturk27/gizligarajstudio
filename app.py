@@ -78,12 +78,17 @@ def transcribe_stream():
 
     def generate():
         mode = request.form.get('mode', 'standard')
+        req_lang = request.form.get('language')
+        
+        # If user picked 'detect' on frontend, req_lang would be None or empty.
+        lang_param = req_lang if req_lang else None
+        
         try:
             word_timestamps = (mode == 'word')
             segments, info = model.transcribe(
                 filepath, 
                 beam_size=5,
-                language="tr",
+                language=lang_param,
                 task="transcribe",
                 word_timestamps=word_timestamps
             )
