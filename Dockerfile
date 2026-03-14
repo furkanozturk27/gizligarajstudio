@@ -1,24 +1,16 @@
-FROM python:3.10-slim
+FROM python:3.10
 
-# Install ffmpeg and development headers required by av
+# Install only the runtime dependency 'ffmpeg'
 RUN apt-get update && apt-get install -y \
     ffmpeg \
-    pkg-config \
-    libavformat-dev \
-    libavcodec-dev \
-    libavdevice-dev \
-    libavutil-dev \
-    libavfilter-dev \
-    libswscale-dev \
-    libswresample-dev \
-    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up work directory
 WORKDIR /app
 
-# Install pip requirements first to cache them
+# Copy requirements and upgrade pip so it can find modern linux wheels for 'av'
 COPY requirements.txt .
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application
