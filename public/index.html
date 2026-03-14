@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gelişmiş Altyazı Editörü</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="editor-theme" id="editor-body">
+  <div class="noise-bg"></div>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="main-sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-accent">GİZLİ</span> GARAJ
+        <div class="logo-sub">STUDIO</div>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" id="nav-subtitle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          Altyazı Stüdyosu
+        </button>
+        <button class="nav-item" id="nav-youtube">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z">
+            </path>
+            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+          </svg>
+          YouTube İndirici
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <p>Gizli Garaj v1.0</p>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+
+      <!-- =========================== -->
+      <!-- ALTYAZI STÜDYOSU (VIEW 1)   -->
+      <!-- =========================== -->
+      <div id="view-subtitle" class="view-section active">
+        <!-- UPLOAD SCREEN -->
+        <div id="upload-screen" class="upload-screen">
+          <div class="upload-modal">
+            <div class="modal-header">
+              <h2>Transcribe files</h2>
+              <button class="icon-btn-plain"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg></button>
+            </div>
+
+            <div class="modal-body">
+              <label id="drop-zone" class="drop-zone" for="file-input">
+                <input type="file" id="file-input" accept="audio/*" hidden>
+                <div class="upload-box-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                  </svg>
+                </div>
+                <div class="drop-zone-text">
+                  <h3>Click or drag files here to upload</h3>
+                  <p id="drop-zone-sub">Audio & video files, up to 1000MB</p>
+                </div>
+              </label>
+
+              <div class="setting-row">
+                <span class="setting-label">Primary language</span>
+                <div class="custom-select">
+                  <span>Detect</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+              </div>
+
+              <div class="setting-row">
+                <span class="setting-label">Tag audio events</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="mode-toggle" checked>
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <span class="setting-label">Include subtitles</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" disabled>
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-group">
+                <span class="setting-label">Keyterms</span>
+                <div class="custom-input-wrap">
+                  <input type="text" class="custom-input" placeholder="Add keyterms...">
+                  <div class="input-icons">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                    <div class="divider"></div>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <div id="upload-progress" class="hidden" style="flex:1; margin-right: 16px;">
+                <div class="status-text" id="upload-status-text" style="margin-top:0; margin-bottom: 4px;">Analiz
+                  ediliyor...</div>
+                <div class="progress-bar">
+                  <div class="progress-fill" id="upload-progress-fill"></div>
+                </div>
+              </div>
+              <button id="start-btn" class="upload-files-btn" disabled>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+                Upload files
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN EDITOR -->
+        <div id="main-editor" class="editor-layout hidden">
+          <!-- Top Toolbar -->
+          <header class="toolbar">
+            <div class="toolbar-left">
+              <button class="icon-btn" title="Geri" id="back-to-upload-btn"><svg width="18" height="18"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 12H5" />
+                  <path d="M12 19l-7-7 7-7" />
+                </svg></button>
+              <div class="tabs">
+                <button class="tab">Transcript</button>
+                <button class="tab active">Subtitles</button>
+              </div>
+            </div>
+            <div class="toolbar-center">
+              <button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M3 10h10a5 5 0 0 1 5 5v2m0-7l-4 4-4-4" />
+                </svg></button>
+              <button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M21 10H11a5 5 0 0 0-5 5v2m0-7l4 4 4-4" />
+                </svg></button>
+            </div>
+            <div class="toolbar-right">
+              <span class="status-label">Last saved never</span>
+              <button class="btn btn-dark">Feedback</button>
+              <button class="btn export-btn" id="export-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Export
+              </button>
+            </div>
+          </header>
+
+          <!-- Center Workspace -->
+          <div class="workspace">
+            <!-- Subtitle List Panel -->
+            <div class="subtitle-panel">
+              <div class="subtitle-list" id="subtitle-list">
+                <!-- Subtitles will be injected here via JS -->
+              </div>
+            </div>
+
+            <!-- Right Inspector Panel -->
+            <aside class="inspector">
+              <!-- Video/Audio Placeholder -->
+              <div class="preview-monitor">
+                <div class="monitor-time">00:00:00:00</div>
+                <div class="monitor-center-text">Ses Önizleme</div>
+              </div>
+
+              <div class="properties-section">
+                <div class="prop-header">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                  Global Properties
+                </div>
+                <div class="prop-content">
+                  <div class="prop-row bold" id="inspector-filename">Sequence 01.mp3</div>
+                  <div class="prop-row">
+                    <span class="prop-label">Language</span>
+                    <span class="prop-value" id="inspector-language">Turkish</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="properties-section">
+                <div class="prop-header">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                  Spell Check
+                </div>
+                <div class="prop-content">
+                  <button class="btn btn-white-outline w-100">
+                    A Run Spell Check
+                  </button>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <!-- Bottom Timeline -->
+          <footer class="timeline-panel">
+            <div class="timeline-header">
+              <div class="timeline-controls">
+                <button class="icon-btn small"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg></button>
+                <input type="range" class="zoom-slider">
+                <button class="icon-btn small"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    <line x1="11" y1="8" x2="11" y2="14" />
+                    <line x1="8" y1="11" x2="14" y2="11" />
+                  </svg></button>
+              </div>
+              <div class="playback-controls">
+                <select class="speed-select">
+                  <option>1.0x</option>
+                  <option>1.5x</option>
+                  <option>2.0x</option>
+                </select>
+                <button class="play-btn" id="play-btn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </button>
+              </div>
+              <div class="timeline-tools">
+                <button class="text-btn">Add cue</button>
+              </div>
+            </div>
+
+            <div class="timeline-track-area">
+              <div class="track-label">Subtitles</div>
+              <div class="track-ruler" id="ruler">
+              </div>
+              <div class="track-clips" id="timeline-clips">
+              </div>
+              <audio id="audio-player" class="hidden"></audio>
+            </div>
+          </footer>
+        </div>
+      </div>
+
+      <!-- =========================== -->
+      <!-- YOUTUBE İNDİRİCİ (VIEW 2)   -->
+      <!-- =========================== -->
+      <div id="view-youtube" class="view-section hidden">
+        <div class="yt-container">
+          <div class="yt-header">
+            <h1 class="yt-title">YOUTUBE <span class="yt-title-accent">İNDİRİCİ</span></h1>
+            <p class="yt-subtitle">Premium kalitede MP4 formatında anında indirin.</p>
+          </div>
+          <div class="yt-search-wrapper">
+            <div class="yt-input-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z">
+                </path>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+              </svg>
+            </div>
+            <input type="text" id="yt-url" placeholder="YouTube video linkini buraya yapıştırın..." class="yt-input" />
+            <button id="yt-download-btn" class="yt-download-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              İndir
+            </button>
+          </div>
+          <div id="yt-status" class="yt-status hidden">
+            <div class="loader-spinner"></div>
+            Lütfen bekleyin, video indiriliyor...
+          </div>
+          <div class="yt-features">
+            <div class="yt-feature"><span class="check">✓</span> Kayıt Gerektirmez</div>
+            <div class="yt-feature"><span class="check">✓</span> Sınırsız İndirme</div>
+            <div class="yt-feature"><span class="check">✓</span> Yüksek Kalite</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Notification system -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
