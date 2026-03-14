@@ -1,16 +1,24 @@
-FROM python:3.10
+FROM python:3.10-bullseye
 
-# Install only the runtime dependency 'ffmpeg'
+# Install system dependencies including those needed to build 'av' from source
 RUN apt-get update && apt-get install -y \
     ffmpeg \
+    build-essential \
+    pkg-config \
+    libavformat-dev \
+    libavcodec-dev \
+    libavdevice-dev \
+    libavutil-dev \
+    libswscale-dev \
+    libswresample-dev \
+    libavfilter-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Set up work directory
 WORKDIR /app
 
-# Copy requirements and upgrade pip so it can find modern linux wheels for 'av'
+# Upgrade pip, setuptools, and wheel to ensure smooth wheel building
 COPY requirements.txt .
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application
