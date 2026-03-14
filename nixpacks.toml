@@ -1,0 +1,24 @@
+{
+  "providers": ["apt", "python"],
+  "phases": {
+    "setup": {
+      "aptPkgs": [
+        "ffmpeg",
+        "pkg-config",
+        "libavformat-dev",
+        "libavcodec-dev",
+        "libavdevice-dev",
+        "libavutil-dev",
+        "libavfilter-dev",
+        "libswscale-dev",
+        "libswresample-dev"
+      ]
+    },
+    "install": {
+      "cmds": ["pip install -r requirements.txt"]
+    },
+    "start": {
+      "cmd": "gunicorn app:app -b 0.0.0.0:$PORT --timeout 600 --workers 1"
+    }
+  }
+}
