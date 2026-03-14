@@ -160,17 +160,21 @@ def download_youtube():
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
+            filepath = ydl.prepare_filename(info)
             title = info.get('title', 'video')
             ext = info.get('ext', 'mp4')
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], f'{temp_id}_{title}.{ext}')
             
-            # Use safe filename for headers
+            # Use safe filename for headers but do NOT modify the filepath
             safe_title = secure_filename(f"{title}.{ext}")
 
         @stream_with_context
         def send_and_delete():
             with open(filepath, 'rb') as f:
-                yield from f
+                while True:
+                    chunk = f.read(8192)
+                    if not chunk:
+                        break
+                    yield chunk
             # clean up after streaming
             if os.path.exists(filepath):
                 try:
