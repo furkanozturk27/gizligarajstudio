@@ -1,10 +1,16 @@
 import os
 import time
 import json
+import subprocess
 from flask import Flask, request, jsonify, send_file, Response, stream_with_context
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import threading
+
+# Add local FFmpeg to PATH for Windows local usage
+FFMPEG_DIR = r"C:\Users\omerf\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.0.1-full_build\bin"
+if os.path.exists(FFMPEG_DIR):
+    os.environ["PATH"] += os.pathsep + FFMPEG_DIR
 
 app = Flask(__name__, static_folder='public', static_url_path='')
 CORS(app)
