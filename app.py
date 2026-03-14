@@ -195,5 +195,5 @@ def download_youtube():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 3000))
     print(f"\n🚀 Sunucu anında başlatıldı: http://localhost:{port}")
-    print(f"Not: Arka planda devasa '{MODEL_SIZE}' modeli yükleniyor. Yaklaşık 4-5 dakika sürebilir.\n")
+    print(f"Not: Arka planda devasa 'large-v3' modeli yükleniyor. Yaklaşık 4-5 dakika sürebilir.\n")
     app.run(host='0.0.0.0', port=port, debug=False, threaded=True)
